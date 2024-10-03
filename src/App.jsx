@@ -1,13 +1,13 @@
 import css from "./App.module.css";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy,useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import NotFoundPage from "./pages/NotFoundPage";
 import RestrictedRoute from "./components/RestrictedRoute";
 import PrivateRoute from "./components/PrivateRoute";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectIsRefreshing } from "./redux/auth/selectors";
-
+import { refreshUser } from "./redux/auth/operations";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
@@ -16,7 +16,11 @@ const ContactsPage = lazy(() => import("./pages/ContactsPage"));
 
 export default function App() {
   const isRefreshing = useSelector(selectIsRefreshing);
-  
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+
 
   return isRefreshing ? (
     <p>Please wait, the data is refreshing...</p>
