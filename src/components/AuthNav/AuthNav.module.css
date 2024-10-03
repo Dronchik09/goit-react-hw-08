@@ -1,0 +1,6 @@
+.authnav {
+    display: flex;
+    gap: 20px;
+    justify-content: start;
+    align-items: center;
+  }
